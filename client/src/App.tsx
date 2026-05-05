@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import LoginForm from "./auth/LoginForm";
+import LoginForm from "./pages/LoginForm";
 import { AuthProvider } from "./auth/AuthContext";
 
 import "./App.css";
