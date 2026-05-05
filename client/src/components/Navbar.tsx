@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -11,6 +12,8 @@ export default function Navbar() {
   };
 
   const username = user?.email?.split("@")[0];
+
+  const isLoginPage = location.pathname === "/login";
 
   return (
     <nav className="w-full border-b bg-white px-6 py-3 flex items-center justify-between">
@@ -32,12 +35,14 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link
-              to="/login"
-              className="px-3 py-1 border rounded hover:bg-gray-100 transition"
-            >
-              Login
-            </Link>
+            {!isLoginPage && (
+              <Link
+                to="/login"
+                className="px-3 py-1 border rounded hover:bg-gray-100 transition"
+              >
+                Login
+              </Link>
+            )}
           </>
         )}
       </div>
