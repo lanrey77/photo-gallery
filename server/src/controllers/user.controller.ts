@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import * as userService from "../services/user.service.js";
+import * as userService from "../services/user.service";
+
+
 
 export const getUsers = (req: Request, res: Response): void => {
   const { location } = req.query;
