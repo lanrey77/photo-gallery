@@ -1,6 +1,7 @@
+import { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
+const Home = lazy(() => import("./pages/Home"));
+const Profile = lazy(() => import("./pages/Profile"));
 import LoginForm from "./pages/LoginForm";
 import { AuthProvider } from "./auth/AuthContext";
 import Navbar from "./components/Navbar";

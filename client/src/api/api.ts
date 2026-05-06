@@ -1,10 +1,11 @@
-const BASE = "http://localhost:5000";
 
-import type { User } from "../types/users";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+import type { User } from "../interfaces/users";
 
 export const getUsers = async (location?: string) => {
   const res = await fetch(
-    `${BASE}/users${location ? `?location=${location}` : ""}`,
+    `${BASE_URL}/users${location ? `?location=${location}` : ""}`,
   );
   return res.json();
 };
@@ -13,7 +14,7 @@ export const getUser = async (
   id: string,
   isLoggedIn: boolean,
 ): Promise<User> => {
-  const res = await fetch(`${BASE}/users/${id}`, {
+  const res = await fetch(`${BASE_URL}/users/${id}`, {
     headers: {
       "x-user": isLoggedIn ? "true" : "",
     },

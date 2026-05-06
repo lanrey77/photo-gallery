@@ -3,7 +3,7 @@ import { getUser } from "../api/api";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import Lightbox from "../components/Lightbox";
-import type { User } from "../types/users";
+import type { User } from "../interfaces/users";
 
 export default function Profile() {
   const { id } = useParams();
@@ -31,6 +31,7 @@ export default function Profile() {
             src={img.url}
             className="cursor-pointer hover:opacity-80"
             onClick={() => setSelectedIndex(i)}
+            alt={`Photo ${i + 1}`}
           />
         ))}
       </div>

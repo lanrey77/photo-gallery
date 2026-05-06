@@ -17,7 +17,6 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
     setIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  //  Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
@@ -32,18 +31,16 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
-      onClick={onClose} // click outside closes
+      onClick={onClose}
     >
-      {/* Prevent close when clicking image */}
       <div onClick={(e) => e.stopPropagation()} className="relative">
 
-        {/* Image */}
         <img
           src={images[index].url}
           className="max-h-[80vh] max-w-[90vw] rounded"
+        alt={`Photo ${index + 1}`}
         />
 
-        {/* Prev */}
         <button
           onClick={prev}
           className="absolute left-[-60px] top-1/2 text-white text-3xl"
@@ -51,7 +48,6 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
           ‹
         </button>
 
-        {/* Next */}
         <button
           onClick={next}
           className="absolute right-[-60px] top-1/2 text-white text-3xl"
@@ -59,7 +55,6 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
           ›
         </button>
 
-        {/* Close */}
         <button
           onClick={onClose}
           className="absolute top-[-40px] right-0 text-white text-xl"
@@ -67,7 +62,6 @@ export default function Lightbox({ images, startIndex, onClose }: Props) {
           ✕
         </button>
 
-        {/* Counter */}
         <div className="absolute bottom-[-30px] text-white text-sm text-center w-full">
           {index + 1} / {images.length}
         </div>
