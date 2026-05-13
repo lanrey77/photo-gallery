@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { getUsers } from "../api/api";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import type { User } from "../interfaces/users";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Home() {
   const { isLoggedIn } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
-  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const location = searchParams.get("location") || "";
 
   useEffect(() => {
     let ignore = false;
@@ -18,9 +21,13 @@ export default function Home() {
 
       try {
         const data = await getUsers(location);
-        if (!ignore) setUsers(data);
+        if (!ignore) {
+          setUsers(data);
+        }
       } finally {
-        if (!ignore) setLoading(false);
+        if (!ignore) {
+          setLoading(false);
+        }
       }
     };
 
@@ -31,6 +38,19 @@ export default function Home() {
     };
   }, [location]);
 
+  const handleLocation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    if (!value) {
+      setSearchParams({});
+      return;
+    }
+
+    setSearchParams({
+      location: value,
+    });
+  };
+
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -38,8 +58,9 @@ export default function Home() {
 
         {!isLoggedIn && (
           <select
-            onChange={(e) => setLocation(e.target.value)}
-            className="border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+            value={location}
+            onChange={handleLocation}
+            className="border rounded-md px-3 py-2"
           >
             <option value="">All Locations</option>
             <option value="Suffolk">Suffolk</option>
@@ -70,7 +91,7 @@ export default function Home() {
       {!loading && users.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-6">
           {users.map((u) => (
-            <Link to={`/user/${u.id}`} key={u.id}>
+            <Link key={u.id} to={`/user/${u.id}?location=${u.location}`}>
               <div className="border rounded-lg p-5 hover:shadow-lg transition cursor-pointer bg-white">
                 <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center mb-3">
                   {u.name.charAt(0)}
